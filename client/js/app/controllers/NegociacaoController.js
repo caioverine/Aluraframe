@@ -43,4 +43,22 @@ class NegociacaoController {
         this._inputValor.value = 0.0;
         this._inputData.focus();   
     }
+
+    importaNegociacoes(){
+
+        let service = new NegociacaoService();
+
+        service.obterNegociacoesDaSemana((erro, negociacoes) => {
+
+            if(erro){
+
+                this._mensagem.texto = erro;
+                return;
+            }
+
+            negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
+            this._mensagem.texto = 'Negocicações importadas com sucesso';
+        });
+
+    }
 }

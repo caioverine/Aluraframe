@@ -10,12 +10,15 @@ class ProxyFactory {
 
                     return function(){
 
+                        let retorno;
+
                         console.log(`método '${prop}' interceptado`);
 
-                        Reflect.apply(target[prop], target, arguments);
+                        retorno =  Reflect.apply(target[prop], target, arguments);
 
-                        return acao(target);
+                        acao(target);
 
+                        return retorno;
                     }
                 }
 
@@ -24,12 +27,14 @@ class ProxyFactory {
 
             set(target, prop, value, receiver){
 
+                let retorno = Reflect.set(target, prop, value, receiver);
+
                 if(props.includes(prop)){
 
                     acao(target);
                 }
 
-                return Reflect.set(target, prop, value, receiver);
+                return retorno;
             }
         });
     }
