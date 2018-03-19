@@ -70,7 +70,7 @@ class NegociacaoService {
 
                     if(xhr.status == 200){
 
-                        resolve(null, JSON.parse(xhr.responseText)
+                        resolve(JSON.parse(xhr.responseText)
                             .map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)));
                     } else {
 
