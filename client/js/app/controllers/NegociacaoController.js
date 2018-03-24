@@ -14,7 +14,15 @@ class NegociacaoController {
         
         this._mensagemView = new MensagemView($('#mensagemView'));
         
-        this._mensagem = new Bind(new Mensagem(), this._mensagemView, 'texto')
+        this._mensagem = new Bind(new Mensagem(), this._mensagemView, 'texto');
+
+        this._listaNegociacoes = new Bind(
+            new ListaNegociacoes(),
+            new NegociacoesView($('#negociacoesView')),
+            'adiciona', 'esvazia', 'ordena', 'inverteOrdem'
+        );
+
+        this._ordemAtual = '';
     }
     
     adiciona(event) {
@@ -59,5 +67,18 @@ class NegociacaoController {
                 .forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
                 this._mensagem.texto = 'Negociações importadas com sucesso';
         }).catch(erro => this._mensagem.texto = erro);
+    }
+
+    ordena (coluna){
+
+        if(this._ordemAtual == coluna) {
+
+            this._listaNegociacoes.inverteOrdem();
+        } else {
+
+            this._listaNegociacoes.ordena((a, b) => a[coluna] - b[coluna]);
+        }
+
+        this._ordemAtual = coluna;
     }
 }
